@@ -1,0 +1,24 @@
+{
+  "name": "react-native-popupwindow",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beefe/react-native-popupwindow.git"
+  },
+  "keywords": [
+    "react-native-popup",
+    "react-native-popupwindow",
+    "react-native-window"
+  ],
+  "author": "shexiaoheng",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/beefe/react-native-popupwindow/issues"
+  },
+  "homepage": "https://github.com/beefe/react-native-popupwindow#readme"
+}
