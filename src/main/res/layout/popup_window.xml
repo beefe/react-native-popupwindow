@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -11,7 +12,16 @@
         android:background="@drawable/round_rect">
 
         <TextView
-            android:id="@+id/text"
+            android:visibility="gone"
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="@dimen/text_padding"
+            android:textSize="@dimen/text_size" />
+
+        <TextView
+            android:id="@+id/message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -19,17 +29,14 @@
             android:textSize="@dimen/text_size" />
 
         <View
-            android:id="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_height"
-            android:layout_below="@id/text"
             android:background="@android:color/darker_gray" />
 
-
         <LinearLayout
+            android:id="@+id/buttonLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/line"
             android:orientation="horizontal">
 
             <TextView
@@ -67,6 +74,6 @@
         </LinearLayout>
 
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>
