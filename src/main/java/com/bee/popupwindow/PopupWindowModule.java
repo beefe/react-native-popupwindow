@@ -51,79 +51,85 @@ public class PopupWindowModule extends BaseJavaModule {
 
     @ReactMethod
     public void showPopupWindow(ReadableMap options, final Callback callback) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.popup_window, null);
-        final PopupWindow popupWindow = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-        TextView title = (TextView) view.findViewById(R.id.title);
-        TextView message = (TextView) view.findViewById(R.id.message);
-        TextView leftBtn = (TextView) view.findViewById(R.id.leftBtn);
-        LinearLayout rightLayout = (LinearLayout) view.findViewById(R.id.rightLayout);
-        TextView rightBtn = (TextView) view.findViewById(R.id.rightBtn);
-        ColorDrawable drawable;
-        if (options.hasKey(WINDOW_COLOR)) {
-            drawable = new ColorDrawable(Color.parseColor(options.getString(WINDOW_COLOR)));
+        if (options == null) {
+            if (callback != null) {
+                callback.invoke("options must be not null");
+            }
         } else {
-            drawable = new ColorDrawable(Color.parseColor("#50000000"));
-        }
-        popupWindow.setBackgroundDrawable(drawable);
-        if (options.hasKey(TITLE)) {
-            title.setVisibility(View.VISIBLE);
-            title.setText(options.getString(TITLE));
-            if (options.hasKey(TITLE_TEXT_SIZE)) {
-                title.setTextSize(options.getInt(TITLE_TEXT_SIZE));
+            View view = LayoutInflater.from(activity).inflate(R.layout.popup_window, null);
+            final PopupWindow popupWindow = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+            TextView title = (TextView) view.findViewById(R.id.title);
+            TextView message = (TextView) view.findViewById(R.id.message);
+            TextView leftBtn = (TextView) view.findViewById(R.id.leftBtn);
+            LinearLayout rightLayout = (LinearLayout) view.findViewById(R.id.rightLayout);
+            TextView rightBtn = (TextView) view.findViewById(R.id.rightBtn);
+            ColorDrawable drawable;
+            if (options.hasKey(WINDOW_COLOR)) {
+                drawable = new ColorDrawable(Color.parseColor(options.getString(WINDOW_COLOR)));
+            } else {
+                drawable = new ColorDrawable(Color.parseColor("#50000000"));
             }
-            if (options.hasKey(TITLE_TEXT_COLOR)) {
-                title.setTextColor(Color.parseColor(options.getString(TITLE_TEXT_COLOR)));
-            }
-        }
-        if (options.hasKey(MESSAGE)) {
-            message.setText(options.getString(MESSAGE));
-            if (options.hasKey(MESSAGE_TEXT_SIZE)) {
-                message.setTextSize(options.getInt(MESSAGE_TEXT_SIZE));
-            }
-            if (options.hasKey(MESSAGE_TEXT_COLOR)) {
-                message.setTextColor(Color.parseColor(options.getString(MESSAGE_TEXT_COLOR)));
-            }
-        }
-        if (options.hasKey(BUTTON_POSITIVE)) {
-            leftBtn.setText(options.getString(BUTTON_POSITIVE));
-            if (options.hasKey(BUTTON_POSITIVE_TEXT_SIZE)) {
-                leftBtn.setTextSize(options.getInt(BUTTON_POSITIVE_TEXT_SIZE));
-            }
-            if (options.hasKey(BUTTON_POSITIVE_TEXT_COLOR)) {
-                leftBtn.setTextColor(Color.parseColor(options.getString(BUTTON_POSITIVE_TEXT_COLOR)));
-            }
-            leftBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (callback != null) {
-                        popupWindow.dismiss();
-                        callback.invoke(ACTION_BUTTON_CLICKED, BUTTON_POSITIVE);
-                    }
+            popupWindow.setBackgroundDrawable(drawable);
+            if (options.hasKey(TITLE)) {
+                title.setVisibility(View.VISIBLE);
+                title.setText(options.getString(TITLE));
+                if (options.hasKey(TITLE_TEXT_SIZE)) {
+                    title.setTextSize(options.getInt(TITLE_TEXT_SIZE));
                 }
-            });
-        }
-        if (options.hasKey(BUTTON_NEGATIVE)) {
-            rightLayout.setVisibility(View.VISIBLE);
-            rightBtn.setText(options.getString(BUTTON_NEGATIVE));
-            if (options.hasKey(BUTTON_NEGATIVE_TEXT_SIZE)) {
-                rightBtn.setTextSize(options.getInt(BUTTON_NEGATIVE_TEXT_SIZE));
-            }
-            if (options.hasKey(BUTTON_NEGATIVE_TEXT_COLOR)) {
-                rightBtn.setTextColor(Color.parseColor(options.getString(BUTTON_NEGATIVE_TEXT_COLOR)));
-            }
-            rightBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (callback != null) {
-                        popupWindow.dismiss();
-                        callback.invoke(ACTION_BUTTON_CLICKED, BUTTON_NEGATIVE);
-                    }
+                if (options.hasKey(TITLE_TEXT_COLOR)) {
+                    title.setTextColor(Color.parseColor(options.getString(TITLE_TEXT_COLOR)));
                 }
-            });
+            }
+            if (options.hasKey(MESSAGE)) {
+                message.setText(options.getString(MESSAGE));
+                if (options.hasKey(MESSAGE_TEXT_SIZE)) {
+                    message.setTextSize(options.getInt(MESSAGE_TEXT_SIZE));
+                }
+                if (options.hasKey(MESSAGE_TEXT_COLOR)) {
+                    message.setTextColor(Color.parseColor(options.getString(MESSAGE_TEXT_COLOR)));
+                }
+            }
+            if (options.hasKey(BUTTON_POSITIVE)) {
+                leftBtn.setText(options.getString(BUTTON_POSITIVE));
+                if (options.hasKey(BUTTON_POSITIVE_TEXT_SIZE)) {
+                    leftBtn.setTextSize(options.getInt(BUTTON_POSITIVE_TEXT_SIZE));
+                }
+                if (options.hasKey(BUTTON_POSITIVE_TEXT_COLOR)) {
+                    leftBtn.setTextColor(Color.parseColor(options.getString(BUTTON_POSITIVE_TEXT_COLOR)));
+                }
+                leftBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (callback != null) {
+                            popupWindow.dismiss();
+                            callback.invoke(null, ACTION_BUTTON_CLICKED, BUTTON_POSITIVE);
+                        }
+                    }
+                });
+            }
+            if (options.hasKey(BUTTON_NEGATIVE)) {
+                rightLayout.setVisibility(View.VISIBLE);
+                rightBtn.setText(options.getString(BUTTON_NEGATIVE));
+                if (options.hasKey(BUTTON_NEGATIVE_TEXT_SIZE)) {
+                    rightBtn.setTextSize(options.getInt(BUTTON_NEGATIVE_TEXT_SIZE));
+                }
+                if (options.hasKey(BUTTON_NEGATIVE_TEXT_COLOR)) {
+                    rightBtn.setTextColor(Color.parseColor(options.getString(BUTTON_NEGATIVE_TEXT_COLOR)));
+                }
+                rightBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (callback != null) {
+                            popupWindow.dismiss();
+                            callback.invoke(null, ACTION_BUTTON_CLICKED, BUTTON_NEGATIVE);
+                        }
+                    }
+                });
+            }
+            popupWindow.setFocusable(true);
+            popupWindow.setOutsideTouchable(true);
+            popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
         }
-        popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
 }
