@@ -1,0 +1,96 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'publish' ]
+2 info using npm@2.14.7
+3 info using node@v4.2.3
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/Users/heng/develop/workspace/librarys/popupwindow',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /Users/heng/.npm/react-native-popupwindow/0.0.1/package.tgz not in flight; packing
+9 verbose tar pack [ '/Users/heng/.npm/react-native-popupwindow/0.0.1/package.tgz',
+9 verbose tar pack   '/Users/heng/develop/workspace/librarys/popupwindow' ]
+10 verbose tarball /Users/heng/.npm/react-native-popupwindow/0.0.1/package.tgz
+11 verbose folder /Users/heng/develop/workspace/librarys/popupwindow
+12 info prepublish react-native-popupwindow@0.0.1
+13 verbose addLocalTarball adding from inside cache /Users/heng/.npm/react-native-popupwindow/0.0.1/package.tgz
+14 silly cache afterAdd react-native-popupwindow@0.0.1
+15 verbose afterAdd /Users/heng/.npm/react-native-popupwindow/0.0.1/package/package.json not in flight; writing
+16 verbose afterAdd /Users/heng/.npm/react-native-popupwindow/0.0.1/package/package.json written
+17 silly publish { name: 'react-native-popupwindow',
+17 silly publish   version: '0.0.1',
+17 silly publish   description: 'Android PopupWindow for react-native module 。',
+17 silly publish   main: 'index.js',
+17 silly publish   scripts: { test: 'echo "Error: no test specified" && exit 1' },
+17 silly publish   repository:
+17 silly publish    { type: 'git',
+17 silly publish      url: 'git+https://github.com/beefe/react-native-popupwindow.git' },
+17 silly publish   keywords:
+17 silly publish    [ 'react-native-popup',
+17 silly publish      'react-native-popupwindow',
+17 silly publish      'react-native-window' ],
+17 silly publish   author: { name: 'shexiaoheng' },
+17 silly publish   license: 'MIT',
+17 silly publish   bugs: { url: 'https://github.com/beefe/react-native-popupwindow/issues' },
+17 silly publish   homepage: 'https://github.com/beefe/react-native-popupwindow#readme',
+17 silly publish   readme: '# react-native-popupwindow\nAndroid PopupWindow for react-native module 。\n\n## 写在前面\n因为在国内很多APP设计都只考虑iOS的界面风格，完全不管Android，直接把iOS的设计图拿来让Android照做，\n然而react-native提供的Alert使用的是Android原生的Dialog，so,本module应运而生 —— 使用Android原生的PopupWindow来实现iOS风格\n的对话框。\n\n## 提供以下方法\n\n### showPopupWindow(options,callback)\noptions : 弹层的设置，全部支持自定义\n* windowColor : 弹层的背景颜色，默认是半透明(#50000000)\n* title : 弹层的标题，默认隐藏，设置本属性后会显示\n* titleTextSize : 标题的字体大小，默认17sp\n* titleTextColor : 标题的字体颜色，系统默认颜色\n* message : 弹层的信息\n* messageTextSize : 信息的字体大小 ，默认17sp\n* messageTextColor : 信息的字体颜色，系统默认颜色\n* positive : 左侧按钮文字\n* positiveTextSize : 左侧按钮文字字体大小，默认15sp\n* positiveTextColor : 左侧按钮文字字体颜色，系统默认颜色\n* negative : 右侧按钮文字\n* negativeTextSize : 右侧按钮文字字体大小，默认15sp\n* negativeTextColor : 右侧按钮文字字体颜色，系统默认颜色\n\ncallback(err,action,button) : 回调\n* err : 当options为null时返回\n* action : 返回"buttonClicked"\n* button : 返回"positive" || "negative"\n\n## 运行效果图\n\n![rendering](/result.gif)\n\n## 安装及使用\n\n#### 第一步 : 安装npm包\n\n```shell\nnpm install --save react-native-popupwindow\n```\n\n#### 第二步 : 更新settings.gradle\n\n```gradle\n// 文件路径：android/settings.gradle \n\n...\n\ninclude \':reactpopupwindow\', \':app\' \nproject(\':reactpopupwindow\').projectDir = new File(rootProject.projectDir, \'../node_modules/react-native-popupwindow\')\n\n// 如果有其他的library，这样添加：\n \n// include \':app\' , \':libraryone\' , \':librarytwo\' , \'more...\'\n// project(\':libraryonename\').projectDir = new File(rootProject.projectDir, \'../node_modules/libraryonemodule\')\n// project(\':librarytwoname\').projectDir = new File(rootProject.projectDir, \'../node_modules/librarytwomodule\')\n// more..\n```\n\n#### 第三步 : 更新app的build.gradle\n\n```gradle\n// 文件路径：android/app/build.gradle\n// file: android/app/build.gradle\n...\n\ndependencies {\n    ...\n    compile project(\':reactpopupwindow\')\n}\n```\n\n#### 第四步 : 注册包\n\n```java\n...\nimport com.bee.popupwindow.PopupWindowPackage;     // 导入类\n\npublic class MainActivity extends ReactActivity {\n\n...\n\n    @Override\n    protected List<ReactPackage> getPackages() {\n        return Arrays.<ReactPackage>asList(\n                new MainReactPackage(),\n                new PopupWindowPackage(MainActivity.this)\n        );\n    }\n\n```\n\n#### 第五步 : 在你的JS文件中使用 \n```javascript\n\'use strict\';\nimport React, {\n  AppRegistry,\n  Component,\n  StyleSheet,\n  Text,\n  View,\n  ToastAndroid,\n} from \'react-native\';\n\nimport MyPop from \'react-native-popupwindow\';\nlet options = {\n      title: \'提示\',\n      message: \'确认退出么？\',\n      positive: \'确定\',\n      negative: \'取消\',\n    };\n\nclass PopupWindow extends Component {\n  right(){\n    MyPop.showPopupWindow(options,(err,action,button) =>{\n      if(err){\n        ToastAndroid.show(err,ToastAndroid.SHORT);\n      }else{\n        if(action === \'buttonClicked\'){\n          if(button === \'positive\'){\n            ToastAndroid.show(\'点击确定\',ToastAndroid.SHORT);\n          }else if(button === \'negative\'){\n            ToastAndroid.show(\'点击取消\',ToastAndroid.SHORT);\n          }\n        }\n      }\n    });\n  }\n\n  error(){\n    MyPop.showPopupWindow(null,(err,action,button) =>{\n      if(err){\n        ToastAndroid.show(err,ToastAndroid.SHORT);\n      }else{\n        ToastAndroid.show(\'action = \' + action + \'  button = \' + button,ToastAndroid.SHORT);\n      }\n    });\n  }\n\n  render() {\n    return (\n      <View style={styles.container}>\n        <Text style={styles.welcome} onPress={this.right}>\n          正确示例\n        </Text>\n        <Text style={styles.welcome} onPress={this.error}>\n          错误示例\n        </Text>\n      </View>\n    );\n  }\n}\n\nconst styles = StyleSheet.create({\n  container: {\n    flex: 1,\n    justifyContent: \'center\',\n    alignItems: \'center\',\n    backgroundColor: \'#F5FCFF\',\n  },\n  welcome: {\n    fontSize: 20,\n    textAlign: \'center\',\n    color: \'#333333\',\n    margin: 10,\n  },\n});\n\nAppRegistry.registerComponent(\'PopupWindow\', () => PopupWindow);\n```\n',
+17 silly publish   readmeFilename: 'README.md',
+17 silly publish   gitHead: 'c638bbd0fd066bd7eb1ef411fc50301b89b6365b',
+17 silly publish   _id: 'react-native-popupwindow@0.0.1',
+17 silly publish   _shasum: '0aab6c2dac763fb111f6bd1c5d37a5b3580e45fa',
+17 silly publish   _from: '.' }
+18 verbose getPublishConfig undefined
+19 silly mapToRegistry name react-native-popupwindow
+20 silly mapToRegistry using default registry
+21 silly mapToRegistry registry https://registry.npmjs.org/
+22 silly mapToRegistry uri https://registry.npmjs.org/react-native-popupwindow
+23 verbose publish registryBase https://registry.npmjs.org/
+24 silly publish uploading /Users/heng/.npm/react-native-popupwindow/0.0.1/package.tgz
+25 verbose request uri https://registry.npmjs.org/react-native-popupwindow
+26 verbose request sending authorization for write operation
+27 info attempt registry request try #1 at 16:40:27
+28 verbose request using bearer token for auth
+29 verbose request id b1f9ccc8a89d192e
+30 http request PUT https://registry.npmjs.org/react-native-popupwindow
+31 http 403 https://registry.npmjs.org/react-native-popupwindow
+32 verbose headers { 'content-type': 'application/json',
+32 verbose headers   'cache-control': 'max-age=300',
+32 verbose headers   'content-length': '128',
+32 verbose headers   'accept-ranges': 'bytes',
+32 verbose headers   date: 'Tue, 01 Mar 2016 08:40:31 GMT',
+32 verbose headers   via: '1.1 varnish',
+32 verbose headers   connection: 'keep-alive',
+32 verbose headers   'x-served-by': 'cache-lcy1120-LCY',
+32 verbose headers   'x-cache': 'MISS',
+32 verbose headers   'x-cache-hits': '0',
+32 verbose headers   'x-timer': 'S1456821629.699259,VS0,VE1550' }
+33 verbose request invalidating /Users/heng/.npm/registry.npmjs.org/react-native-popupwindow on PUT
+34 error publish Failed PUT 403
+35 verbose stack Error: "You cannot publish over the previously published version 0.0.1. Try bumping the version to 1.0.0" : react-native-popupwindow
+35 verbose stack     at makeError (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+35 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+35 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+35 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:198:22)
+35 verbose stack     at emitTwo (events.js:87:13)
+35 verbose stack     at Request.emit (events.js:172:7)
+35 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1063:14)
+35 verbose stack     at emitOne (events.js:82:20)
+35 verbose stack     at Request.emit (events.js:169:7)
+35 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1009:12)
+36 verbose statusCode 403
+37 verbose pkgid react-native-popupwindow
+38 verbose cwd /Users/heng/develop/workspace/librarys/popupwindow
+39 error Darwin 14.5.0
+40 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "publish"
+41 error node v4.2.3
+42 error npm  v2.14.7
+43 error code E403
+44 error "You cannot publish over the previously published version 0.0.1. Try bumping the version to 1.0.0" : react-native-popupwindow
+45 error If you need help, you may report this error at:
+45 error     <https://github.com/npm/npm/issues>
+46 verbose exit [ 1, true ]

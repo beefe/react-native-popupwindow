@@ -1,7 +1,7 @@
 {
   "name": "react-native-popupwindow",
-  "version": "0.0.1",
-  "description": "Android PopupWindow for react-native module 。",
+  "version": "0.1.0",
+  "description": "Android PopupWindow for react-native module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
