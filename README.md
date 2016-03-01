@@ -31,7 +31,7 @@ callback(err,action,button) : 回调
 
 ## 运行效果图
 
-![Renderings](./result.gif)
+![rendering](/result.gif)
 
 ## 安装及使用
 
