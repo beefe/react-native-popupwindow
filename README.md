@@ -29,6 +29,10 @@ callback(err,action,button) : 回调
 * action : 返回"buttonClicked"
 * button : 返回"positive" || "negative"
 
+## 运行效果图
+
+![Renderings](./result.gif)
+
 ## 安装及使用
 
 #### 第一步 : 安装npm包
