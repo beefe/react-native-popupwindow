@@ -28,3 +28,141 @@ callback(err,action,button) : 回调
 * err : 当options为null时返回
 * action : 返回"buttonClicked"
 * button : 返回"positive" || "negative"
+
+## 安装及使用
+
+#### 第一步 : 安装npm包
+
+```shell
+npm install --save react-native-popupwindow
+```
+
+#### 第二步 : 更新settings.gradle
+
+```gradle
+// 文件路径：android/settings.gradle 
+
+...
+
+include ':reactpopupwindow', ':app' 
+project(':reactpopupwindow').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-popupwindow')
+
+// 如果有其他的library，这样添加：
+ 
+// include ':app' , ':libraryone' , ':librarytwo' , 'more...'
+// project(':libraryonename').projectDir = new File(rootProject.projectDir, '../node_modules/libraryonemodule')
+// project(':librarytwoname').projectDir = new File(rootProject.projectDir, '../node_modules/librarytwomodule')
+// more..
+```
+
+#### 第三步 : 更新app的build.gradle
+
+```gradle
+// 文件路径：android/app/build.gradle
+// file: android/app/build.gradle
+...
+
+dependencies {
+    ...
+    compile project(':reactpopupwindow')
+}
+```
+
+#### 第四步 : 注册包
+
+```java
+...
+import com.bee.popupwindow.PopupWindowPackage;     // 导入类
+
+public class MainActivity extends ReactActivity {
+
+...
+
+    @Override
+    protected List<ReactPackage> getPackages() {
+        return Arrays.<ReactPackage>asList(
+                new MainReactPackage(),
+                new PopupWindowPackage(MainActivity.this)
+        );
+    }
+
+```
+
+#### 第五步 : 在你的JS文件中使用 
+```javascript
+'use strict';
+import React, {
+  AppRegistry,
+  Component,
+  StyleSheet,
+  Text,
+  View,
+  ToastAndroid,
+} from 'react-native';
+
+import MyPop from 'react-native-popupwindow';
+let options = {
+      title: '提示',
+      message: '确认退出么？',
+      positive: '确定',
+      negative: '取消',
+    };
+
+class PopupWindow extends Component {
+  right(){
+    MyPop.showPopupWindow(options,(err,action,button) =>{
+      if(err){
+        ToastAndroid.show(err,ToastAndroid.SHORT);
+      }else{
+        if(action === 'buttonClicked'){
+          if(button === 'positive'){
+            ToastAndroid.show('点击确定',ToastAndroid.SHORT);
+          }else if(button === 'negative'){
+            ToastAndroid.show('点击取消',ToastAndroid.SHORT);
+          }
+        }
+      }
+    });
+  }
+
+  error(){
+    MyPop.showPopupWindow(null,(err,action,button) =>{
+      if(err){
+        ToastAndroid.show(err,ToastAndroid.SHORT);
+      }else{
+        ToastAndroid.show('action = ' + action + '  button = ' + button,ToastAndroid.SHORT);
+      }
+    });
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome} onPress={this.right}>
+          正确示例
+        </Text>
+        <Text style={styles.welcome} onPress={this.error}>
+          错误示例
+        </Text>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: '#333333',
+    margin: 10,
+  },
+});
+
+AppRegistry.registerComponent('PopupWindow', () => PopupWindow);
+```
