@@ -1,6 +1,6 @@
 {
   "name": "react-native-popupwindow",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Android PopupWindow for react-native module",
   "main": "index.js",
   "scripts": {

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/cancel"
+        android:layout_marginLeft="@dimen/bottom_margin"
+        android:layout_marginRight="@dimen/bottom_margin"
+        android:background="@drawable/round_rect">
+
+        <TextView
+            android:id="@+id/bottomMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/text_padding"
+            android:text="@string/exit"
+            android:textColor="@android:color/darker_gray" />
+
+        <View
+            android:id="@+id/bottomLine"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:layout_below="@+id/bottomMessage"
+            android:background="@android:color/darker_gray" />
+
+
+        <TextView
+            android:id="@+id/bottomSure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bottomLine"
+            android:clickable="true"
+            android:gravity="center"
+            android:padding="@dimen/text_padding"
+            android:text="@string/sure"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="@dimen/text_size" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/bottom_margin"
+        android:background="@drawable/round_rect"
+        android:clickable="true"
+        android:gravity="center"
+        android:padding="@dimen/text_padding"
+        android:text="@string/cancel"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="@dimen/text_size" />
+
+</RelativeLayout>

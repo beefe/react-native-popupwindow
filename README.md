@@ -9,20 +9,27 @@ Android PopupWindow for react-native module 。
 ## 提供以下方法
 
 ### showPopupWindow(options,callback)
-options : 弹层的设置，全部支持自定义
-* windowColor : 弹层的背景颜色，默认是半透明(#50000000)
-* title : 弹层的标题，默认隐藏，设置本属性后会显示
-* titleTextSize : 标题的字体大小，默认17sp
-* titleTextColor : 标题的字体颜色，系统默认颜色
-* message : 弹层的信息
-* messageTextSize : 信息的字体大小 ，默认17sp
-* messageTextColor : 信息的字体颜色，系统默认颜色
-* positive : 左侧按钮文字
-* positiveTextSize : 左侧按钮文字字体大小，默认15sp
-* positiveTextColor : 左侧按钮文字字体颜色，系统默认颜色
-* negative : 右侧按钮文字
-* negativeTextSize : 右侧按钮文字字体大小，默认15sp
-* negativeTextColor : 右侧按钮文字字体颜色，系统默认颜色
+options : 参数设置，不允许为空
+ * windowColor : 背景颜色，默认是半透明(#50000000)
+ * style : 样式，目前提供在界面中间和界面底部两种显示
+  * 0 : 中间显示，不设置默认为0
+  * 1 : 底部显示
+ * margin : 布局与屏幕的边距大小(style为0时默认30dp；style为1时默认9dp，包括取消按钮的边距)
+ * title : 标题，默认隐藏，设置本属性后会显示(仅当style为0时有效)
+ * titleTextSize : 标题的字体大小，默认17sp(仅当style为0时有效)
+ * titleTextColor : 标题的字体颜色，默认系统颜色(仅当style为0时有效)
+ * single(仅当style为0时有效，不设置默认显示两个按钮)
+  * false : 两个按钮
+  * true : 单个按钮(此时只有positive有效，negative处于隐藏状态)
+ * message : 提示信息
+ * messageTextSize : 信息的字体大小(style为0时默认17sp；style为1时系统默认大小)
+ * messageTextColor : 信息的字体颜色(style为0时默认系统颜色；style为1时默认值#aaa)
+ * positive : 确定按钮文字(style为0且single为false时为左侧按钮，single为true时只有此按钮；style为1时为上面按钮)
+ * positiveTextSize : 确定按钮文字字体大小，默认17sp
+ * positiveTextColor : 确定按钮文字字体颜色(style为0时系统默认颜色；style为1时默认值#ffff4444)
+ * negative : 取消按钮文字(style为0且single为false时为右侧按钮，single为true时此按钮会隐藏；style为1时为底部单独按钮)
+ * negativeTextSize : 取消按钮文字字体大小，默认17sp
+ * negativeTextColor : 取消按钮文字字体颜色(style为0时系统默认颜色；style为1时默认值#ff0099cc)
 
 callback(err,action,button) : 回调
 * err : 当options为null时返回
@@ -31,68 +38,26 @@ callback(err,action,button) : 回调
 
 ## 运行效果图
 
-![rendering](/result.gif)
+![rendering](/popup.gif)
 
 ## 安装及使用
 
-#### 第一步 : 安装npm包
-
+#### 安装rnpm包(已安装rnpm包的请忽略本步骤)
 ```shell
-npm install --save react-native-popupwindow
+$ npm install rnpm -g
 ```
 
-#### 第二步 : 更新settings.gradle
-
-```gradle
-// 文件路径：android/settings.gradle 
-
-...
-
-include ':reactpopupwindow', ':app' 
-project(':reactpopupwindow').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-popupwindow')
-
-// 如果有其他的library，这样添加：
- 
-// include ':app' , ':libraryone' , ':librarytwo' , 'more...'
-// project(':libraryonename').projectDir = new File(rootProject.projectDir, '../node_modules/libraryonemodule')
-// project(':librarytwoname').projectDir = new File(rootProject.projectDir, '../node_modules/librarytwomodule')
-// more..
+#### 安装npm包
+```shell
+$ npm install --save react-native-popupwindow
 ```
 
-#### 第三步 : 更新app的build.gradle
-
-```gradle
-// 文件路径：android/app/build.gradle
-// file: android/app/build.gradle
-...
-
-dependencies {
-    ...
-    compile project(':reactpopupwindow')
-}
+#### 添加link
+```shell
+$ rnpm link react-native-popupwindow
 ```
 
-#### 第四步 : 注册包
-
-```java
-...
-import com.bee.popupwindow.PopupWindowPackage;     // 导入类
-
-public class MainActivity extends ReactActivity {
-
-...
-
-    @Override
-    protected List<ReactPackage> getPackages() {
-        return Arrays.<ReactPackage>asList(
-                new MainReactPackage(),
-                new PopupWindowPackage(MainActivity.this)
-        );
-    }
-
-```
-
-#### 第五步 : 在你的JS文件中使用 
+#### 在你的JS文件中使用 
 ```javascript
 'use strict';
 import React, {
@@ -105,50 +70,53 @@ import React, {
 } from 'react-native';
 
 import MyPop from 'react-native-popupwindow';
+
 let options = {
-      title: '提示',
-      message: '确认退出么？',
-      positive: '确定',
-      negative: '取消',
-    };
+};
 
 class PopupWindow extends Component {
-  right(){
+  center(){
+    options.style = 0;
     MyPop.showPopupWindow(options,(err,action,button) =>{
-      if(err){
-        ToastAndroid.show(err,ToastAndroid.SHORT);
-      }else{
-        if(action === 'buttonClicked'){
-          if(button === 'positive'){
-            ToastAndroid.show('点击确定',ToastAndroid.SHORT);
-          }else if(button === 'negative'){
-            ToastAndroid.show('点击取消',ToastAndroid.SHORT);
+          if(err){
+            ToastAndroid.show(err,ToastAndroid.SHORT);
+          }else{
+            if(action === 'buttonClicked'){
+                if(button === 'positive'){
+                  ToastAndroid.show('点击确定',ToastAndroid.SHORT);
+                }else if(button === 'negative'){
+                  ToastAndroid.show('点击取消',ToastAndroid.SHORT);
+                }
+            }
           }
-        }
-      }
-    });
+      });
   }
-
-  error(){
-    MyPop.showPopupWindow(null,(err,action,button) =>{
-      if(err){
-        ToastAndroid.show(err,ToastAndroid.SHORT);
-      }else{
-        ToastAndroid.show('action = ' + action + '  button = ' + button,ToastAndroid.SHORT);
-      }
-    });
+  bottom(){
+    options.style = 1;
+    MyPop.showPopupWindow(options,(err,action,button) =>{
+          if(err){
+            ToastAndroid.show(err,ToastAndroid.SHORT);
+          }else{
+            if(action === 'buttonClicked'){
+                if(button === 'positive'){
+                  ToastAndroid.show('点击确定',ToastAndroid.SHORT);
+                }else if(button === 'negative'){
+                  ToastAndroid.show('点击取消',ToastAndroid.SHORT);
+                }
+            }
+          }
+      });
   }
-
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome} onPress={this.right}>
-          正确示例
-        </Text>
-        <Text style={styles.welcome} onPress={this.error}>
-          错误示例
-        </Text>
-      </View>
+        <View style={styles.container}>
+          <Text style={styles.welcome} onPress={this.center}>
+              中间显示
+           </Text>
+          <Text style={styles.welcome} onPress={this.bottom}>
+              底部显示
+          </Text>
+        </View>
     );
   }
 }
@@ -163,7 +131,6 @@ const styles = StyleSheet.create({
   welcome: {
     fontSize: 20,
     textAlign: 'center',
-    color: '#333333',
     margin: 10,
   },
 });

@@ -4,28 +4,30 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/centerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_margin="@dimen/window_margin"
-        android:background="@drawable/round_rect">
+        android:background="@drawable/round_rect"
+        android:orientation="vertical">
 
         <TextView
-            android:visibility="gone"
-            android:id="@+id/title"
+            android:id="@+id/centerTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingTop="@dimen/text_padding"
-            android:textSize="@dimen/text_size" />
+            android:textSize="@dimen/text_size"
+            android:visibility="gone" />
 
         <TextView
-            android:id="@+id/message"
+            android:id="@+id/centerMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="@dimen/text_padding"
+            android:text="@string/exit"
             android:textSize="@dimen/text_size" />
 
         <View
@@ -34,7 +36,6 @@
             android:background="@android:color/darker_gray" />
 
         <LinearLayout
-            android:id="@+id/buttonLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -44,17 +45,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
+                android:clickable="true"
                 android:gravity="center"
                 android:padding="@dimen/btn_padding"
-                android:textSize="@dimen/btn_size" />
+                android:text="@string/sure"
+                android:textSize="@dimen/text_size" />
 
             <LinearLayout
                 android:id="@+id/rightLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:orientation="horizontal">
 
                 <View
                     android:layout_width="@dimen/line_width"
@@ -65,9 +67,11 @@
                     android:id="@+id/rightBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
                     android:gravity="center"
                     android:padding="@dimen/btn_padding"
-                    android:textSize="@dimen/btn_size" />
+                    android:text="@string/cancel"
+                    android:textSize="@dimen/text_size" />
 
             </LinearLayout>
 
