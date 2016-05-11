@@ -57,6 +57,20 @@ $ npm install --save react-native-popupwindow
 $ rnpm link react-native-popupwindow
 ```
 
+#### 手动修改MainActivity
+因为本Module重载了PopupWindowPackage的构造函数，增加了一个Activity的参数，需要手动改下MainActivity.java文件
+```java
+...
+@Override
+    protected List<ReactPackage> getPackages() {
+        return Arrays.<ReactPackage>asList(
+            new MainReactPackage(),
+            new PopupWindowPackage(MainActivity.this)// 通过link命令行添加的是new PopupWindowPackage(),需要传入MainActivity.this这个参数
+        );
+    }
+...    
+```
+
 #### 在你的JS文件中使用 
 ```javascript
 'use strict';
