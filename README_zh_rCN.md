@@ -1,4 +1,4 @@
-# react-native-popupwindow
+# react-native-popupwindow [![npm version](https://img.shields.io/npm/v/react-native-popupwindow.svg?style=flat-square)](https://www.npmjs.com/package/react-native-popupwindow)
 在Android端实现iOS风格的对话框
 
 ## 提供以下方法
