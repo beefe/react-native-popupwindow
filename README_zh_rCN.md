@@ -1,5 +1,5 @@
 # react-native-popupwindow
-在Android端实现iOS风格的对话框。
+在Android端实现iOS风格的对话框
 
 ## 提供以下方法
 
