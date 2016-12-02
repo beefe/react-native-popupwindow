@@ -1,7 +1,5 @@
 package com.bee.popupwindow;
 
-import android.app.Activity;
-
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
@@ -14,18 +12,15 @@ import java.util.List;
 
 /**
  * Created by heng on 16/2/26.
+ *
+ * Edited by heng on 16/12/02.
+ * Supported RN v0.29+
  */
 public class PopupWindowPackage implements ReactPackage {
 
-    Activity activity;
-
-    public PopupWindowPackage(Activity activity){
-        this.activity = activity;
-    }
-
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Arrays.<NativeModule>asList(new PopupWindowModule(activity));
+        return Arrays.<NativeModule>asList(new PopupWindowModule(reactContext));
     }
 
     @Override

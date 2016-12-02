@@ -12,51 +12,57 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.facebook.react.bridge.BaseJavaModule;
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 
 /**
  * Created by heng on 16/02/26.
  * Edited by heng on 16/03/15.
+ * <p>
+ * Edited by heng on 16/12/02.
+ * Supported RN v0.29+
  */
-public class PopupWindowModule extends BaseJavaModule {
+public class PopupWindowModule extends ReactContextBaseJavaModule {
 
-    public static final String REACT_CLASS = "PopupWindow";
+    private static final String REACT_CLASS = "PopupWindow";
 
-    static final String ACTION_BUTTON_CLICKED = "buttonClicked";
-    static final String WINDOW_COLOR = "windowColor";
-    static final String STYLE = "style";
-    static final String SINGLE = "single";
-    static final String TITLE = "title";
-    static final String MARGIN = "margin";
-    static final String TITLE_TEXT_SIZE = "titleTextSize";
-    static final String TITLE_TEXT_COLOR = "titleTextColor";
-    static final String MESSAGE = "message";
-    static final String MESSAGE_TEXT_SIZE = "messageTextSize";
-    static final String MESSAGE_TEXT_COLOR = "messageTextColor";
-    static final String BUTTON_POSITIVE = "positive";
-    static final String BUTTON_POSITIVE_TEXT_SIZE = "positiveTextSize";
-    static final String BUTTON_POSITIVE_TEXT_COLOR = "positiveTextColor";
-    static final String BUTTON_NEGATIVE = "negative";
-    static final String BUTTON_NEGATIVE_TEXT_SIZE = "negativeTextSize";
-    static final String BUTTON_NEGATIVE_TEXT_COLOR = "negativeTextColor";
+    private static final String ERR_OPTIONS_IS_NULL = "options must be not null";
+    private static final String ERR_ACTIVITY_IS_NULL = "activity is null";
 
-    Activity activity;
+    private static final String ACTION_BUTTON_CLICKED = "buttonClicked";
+    private static final String WINDOW_COLOR = "windowColor";
+    private static final String STYLE = "style";
+    private static final String SINGLE = "single";
+    private static final String TITLE = "title";
+    private static final String MARGIN = "margin";
+    private static final String TITLE_TEXT_SIZE = "titleTextSize";
+    private static final String TITLE_TEXT_COLOR = "titleTextColor";
+    private static final String MESSAGE = "message";
+    private static final String MESSAGE_TEXT_SIZE = "messageTextSize";
+    private static final String MESSAGE_TEXT_COLOR = "messageTextColor";
+    private static final String BUTTON_POSITIVE = "positive";
+    private static final String BUTTON_POSITIVE_TEXT_SIZE = "positiveTextSize";
+    private static final String BUTTON_POSITIVE_TEXT_COLOR = "positiveTextColor";
+    private static final String BUTTON_NEGATIVE = "negative";
+    private static final String BUTTON_NEGATIVE_TEXT_SIZE = "negativeTextSize";
+    private static final String BUTTON_NEGATIVE_TEXT_COLOR = "negativeTextColor";
 
-    PopupWindow popupWindow;
 
-    TextView title;
-    TextView message;
-    TextView positive;
-    TextView negative;
-    LinearLayout centerLayout;
-    LinearLayout rightLayout;
-    RelativeLayout bottomLayout;
+    private PopupWindow popupWindow;
 
-    public PopupWindowModule(Activity activity) {
-        this.activity = activity;
+    private TextView title;
+    private TextView message;
+    private TextView positive;
+    private TextView negative;
+    private LinearLayout centerLayout;
+    private LinearLayout rightLayout;
+    private RelativeLayout bottomLayout;
+
+    public PopupWindowModule(ReactApplicationContext reactContext) {
+        super(reactContext);
     }
 
     @Override
@@ -66,18 +72,27 @@ public class PopupWindowModule extends BaseJavaModule {
 
     @ReactMethod
     public void showPopupWindow(ReadableMap options, final Callback callback) {
+        Activity activity = getCurrentActivity();
+        if (callback == null) {
+            return;
+        }
+        if (activity == null) {
+            callback.invoke(ERR_ACTIVITY_IS_NULL);
+            return;
+        }
         if (options == null) {
-            if (callback != null) {
-                callback.invoke("options must be not null");
-            }
-        } else {
-            View view;
-            int style = 0;
-            if (options.hasKey(STYLE)) {
-                style = options.getInt(STYLE);
-            }
-            if (style == 0) {
-                view = initCenter();
+            callback.invoke(ERR_OPTIONS_IS_NULL);
+            return;
+        }
+
+        View view;
+        int style = 0;
+        if (options.hasKey(STYLE)) {
+            style = options.getInt(STYLE);
+        }
+        switch (style) {
+            case 0:
+                view = initCenter(activity);
                 if (options.hasKey(TITLE)) {
                     title.setVisibility(View.VISIBLE);
                     title.setText(options.getString(TITLE));
@@ -103,8 +118,9 @@ public class PopupWindowModule extends BaseJavaModule {
                     params.addRule(RelativeLayout.CENTER_IN_PARENT);
                     centerLayout.setLayoutParams(params);
                 }
-            } else {
-                view = initBottom();
+                break;
+            default:
+                view = initBottom(activity);
                 if (options.hasKey(MARGIN)) {
                     int margin = options.getInt(MARGIN);
                     RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(
@@ -116,71 +132,67 @@ public class PopupWindowModule extends BaseJavaModule {
                     RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                             RelativeLayout.LayoutParams.MATCH_PARENT,
                             RelativeLayout.LayoutParams.WRAP_CONTENT);
-                    layoutParams.addRule(RelativeLayout.ABOVE,R.id.cancel);
+                    layoutParams.addRule(RelativeLayout.ABOVE, R.id.cancel);
                     layoutParams.setMargins(margin, 0, margin, 0);
                     bottomLayout.setLayoutParams(layoutParams);
                 }
-            }
-            if (options.hasKey(MESSAGE)) {
-                message.setText(options.getString(MESSAGE));
-                if (options.hasKey(MESSAGE_TEXT_SIZE)) {
-                    message.setTextSize(options.getInt(MESSAGE_TEXT_SIZE));
-                }
-                if (options.hasKey(MESSAGE_TEXT_COLOR)) {
-                    message.setTextColor(Color.parseColor(options.getString(MESSAGE_TEXT_COLOR)));
-                }
-            }
-            if (options.hasKey(BUTTON_POSITIVE)) {
-                positive.setText(options.getString(BUTTON_POSITIVE));
-                if (options.hasKey(BUTTON_POSITIVE_TEXT_SIZE)) {
-                    positive.setTextSize(options.getInt(BUTTON_POSITIVE_TEXT_SIZE));
-                }
-                if (options.hasKey(BUTTON_POSITIVE_TEXT_COLOR)) {
-                    positive.setTextColor(Color.parseColor(options.getString(BUTTON_POSITIVE_TEXT_COLOR)));
-                }
-            }
-            positive.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (callback != null) {
-                        popupWindow.dismiss();
-                        callback.invoke(null, ACTION_BUTTON_CLICKED, BUTTON_POSITIVE);
-                    }
-                }
-            });
-            if (options.hasKey(BUTTON_NEGATIVE)) {
-                negative.setText(options.getString(BUTTON_NEGATIVE));
-                if (options.hasKey(BUTTON_NEGATIVE_TEXT_SIZE)) {
-                    negative.setTextSize(options.getInt(BUTTON_NEGATIVE_TEXT_SIZE));
-                }
-                if (options.hasKey(BUTTON_NEGATIVE_TEXT_COLOR)) {
-                    negative.setTextColor(Color.parseColor(options.getString(BUTTON_NEGATIVE_TEXT_COLOR)));
-                }
-            }
-            negative.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (callback != null) {
-                        popupWindow.dismiss();
-                        callback.invoke(null, ACTION_BUTTON_CLICKED, BUTTON_NEGATIVE);
-                    }
-                }
-            });
-            popupWindow = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-            ColorDrawable drawable;
-            if (options.hasKey(WINDOW_COLOR)) {
-                drawable = new ColorDrawable(Color.parseColor(options.getString(WINDOW_COLOR)));
-            } else {
-                drawable = new ColorDrawable(Color.parseColor("#50000000"));
-            }
-            popupWindow.setBackgroundDrawable(drawable);
-            popupWindow.setFocusable(true);
-            popupWindow.setOutsideTouchable(true);
-            popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+                break;
         }
+        if (options.hasKey(MESSAGE)) {
+            message.setText(options.getString(MESSAGE));
+            if (options.hasKey(MESSAGE_TEXT_SIZE)) {
+                message.setTextSize(options.getInt(MESSAGE_TEXT_SIZE));
+            }
+            if (options.hasKey(MESSAGE_TEXT_COLOR)) {
+                message.setTextColor(Color.parseColor(options.getString(MESSAGE_TEXT_COLOR)));
+            }
+        }
+        if (options.hasKey(BUTTON_POSITIVE)) {
+            positive.setText(options.getString(BUTTON_POSITIVE));
+            if (options.hasKey(BUTTON_POSITIVE_TEXT_SIZE)) {
+                positive.setTextSize(options.getInt(BUTTON_POSITIVE_TEXT_SIZE));
+            }
+            if (options.hasKey(BUTTON_POSITIVE_TEXT_COLOR)) {
+                positive.setTextColor(Color.parseColor(options.getString(BUTTON_POSITIVE_TEXT_COLOR)));
+            }
+        }
+        positive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callback.invoke(null, ACTION_BUTTON_CLICKED, BUTTON_POSITIVE);
+                popupWindow.dismiss();
+            }
+        });
+        if (options.hasKey(BUTTON_NEGATIVE)) {
+            negative.setText(options.getString(BUTTON_NEGATIVE));
+            if (options.hasKey(BUTTON_NEGATIVE_TEXT_SIZE)) {
+                negative.setTextSize(options.getInt(BUTTON_NEGATIVE_TEXT_SIZE));
+            }
+            if (options.hasKey(BUTTON_NEGATIVE_TEXT_COLOR)) {
+                negative.setTextColor(Color.parseColor(options.getString(BUTTON_NEGATIVE_TEXT_COLOR)));
+            }
+        }
+        negative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                callback.invoke(null, ACTION_BUTTON_CLICKED, BUTTON_NEGATIVE);
+            }
+        });
+        popupWindow = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        ColorDrawable drawable;
+        if (options.hasKey(WINDOW_COLOR)) {
+            drawable = new ColorDrawable(Color.parseColor(options.getString(WINDOW_COLOR)));
+        } else {
+            drawable = new ColorDrawable(Color.parseColor("#50000000"));
+        }
+        popupWindow.setBackgroundDrawable(drawable);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
-    private View initCenter() {
+    private View initCenter(Activity activity) {
         View view = LayoutInflater.from(activity).inflate(R.layout.popup_window_center, null);
         centerLayout = (LinearLayout) view.findViewById(R.id.centerLayout);
         title = (TextView) view.findViewById(R.id.centerTitle);
@@ -192,7 +204,7 @@ public class PopupWindowModule extends BaseJavaModule {
     }
 
 
-    private View initBottom() {
+    private View initBottom(Activity activity) {
         View view = LayoutInflater.from(activity).inflate(R.layout.popup_window_bottom, null);
         bottomLayout = (RelativeLayout) view.findViewById(R.id.bottomLayout);
         message = (TextView) view.findViewById(R.id.bottomMessage);

@@ -1,53 +1,51 @@
 # react-native-popupwindow
-Android used PopupWindow implementation of the iOS-style dialog box
+在Android端实现iOS风格的对话框。
 
-### [简体中文](/README_zh_rCN.md)
-
-## Method
+## 提供以下方法
 
 ### showPopupWindow(options,callback)
-options : must be not null
- * windowColor : background color,default #50000000
- * style : show in activity center or bottom,default 0
-  * 0 : show in center
-  * 1 : show in bottom
- * margin : the distance from the screen
- * title : dialog title,default hide,only show when set value and style=0
- * titleTextSize : dialog title text size,default 17sp,only show when set value and style=0
- * titleTextColor : dialog title text color,only show when set value and style=0
- * single : only show when set value and style=0,default false
-  * false : has two button(positive and negative)
-  * true : single button(only has positive)
- * message : dialog message
- * messageTextSize : dialog message text size
- * messageTextColor : dialog message text color
- * positive : when style=0 and single=false,is left button、when single=true,only has this button; when style=1,is above button
- * positiveTextSize : positive button text size
- * positiveTextColor : positive button text color
- * negative : when style=0 and single=false,is right button、when single=true,this button will be hidden; when style=1,is below button
- * negativeTextSize : negative button text size
- * negativeTextColor : negative button text color
+options : 参数设置
+ * windowColor : 背景颜色，默认是半透明(#50000000)
+ * style : 样式，在界面中间或在界面底部显示,默认为中间显示
+  * 0 : 中间显示
+  * 1 : 底部显示
+ * margin : 对话框与屏幕的边距(style为0时默认30dp；style为1时默认9dp)
+ * title : 标题，默认隐藏，设置本属性后会显示(仅当style为0时有效)
+ * titleTextSize : 标题的字体大小，默认17sp(仅当style为0时有效)
+ * titleTextColor : 标题的字体颜色，默认系统颜色(仅当style为0时有效)
+ * single(仅当style为0时有效，不设置默认显示两个按钮)
+  * false : 两个按钮
+  * true : 单个按钮(此时只有positive有效，negative处于隐藏状态)
+ * message : 提示信息
+ * messageTextSize : 信息的字体大小(style为0时默认17sp；style为1时系统默认大小)
+ * messageTextColor : 信息的字体颜色
+ * positive : 确定按钮文字(style为0且single为false时为左侧按钮，single为true时只有此按钮；style为1时为上面按钮)
+ * positiveTextSize : 确定按钮文字字体大小，默认17sp
+ * positiveTextColor : 确定按钮文字字体颜色
+ * negative : 取消按钮文字(style为0且single为false时为右侧按钮，single为true时此按钮会隐藏；style为1时为底部按钮)
+ * negativeTextSize : 取消按钮文字字体大小，默认17sp
+ * negativeTextColor : 取消按钮文字字体颜色
 
 callback(err,action,button)
-* err : err message
-* action : return "buttonClicked"
-* button : return "positive" or "negative"
+* err : 返回的错误信息
+* action : 返回"buttonClicked"
+* button : 返回"positive"或者"negative"
 
-## Install And Use
+## 安装及使用
 
-#### Npm Install
+#### 安装npm包
 
 ```shell
 $ npm install --save react-native-popupwindow
 ```
 
-#### Add Link
+#### 添加link（引用）
 
 ```shell
 $ react-native link react-native-popupwindow
 ```
 
-#### Use
+#### 在你的JS文件中使用 
 
 ```javascript
 import React, { Component } from 'react';
@@ -129,6 +127,6 @@ const styles = StyleSheet.create({
 AppRegistry.registerComponent('PopupWindow', () => PopupWindow);
 ```
 
-## Run Renderings
+## 运行效果图
 
 ![rendering](/popup.gif)
