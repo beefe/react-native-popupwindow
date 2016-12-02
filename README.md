@@ -1,4 +1,4 @@
-# react-native-popupwindow
+# react-native-popupwindow [![npm version](https://img.shields.io/npm/v/react-native-popupwindow.svg?style=flat-square)](https://www.npmjs.com/package/react-native-popupwindow)
 Android used PopupWindow implementation of the iOS-style dialog box
 
 ### [简体中文](/README_zh_rCN.md)
