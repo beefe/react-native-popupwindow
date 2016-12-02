@@ -74,9 +74,9 @@ class PopupWindow extends Component {
           }else{
             if(action === 'buttonClicked'){
                 if(button === 'positive'){
-                  ToastAndroid.show('点击确定',ToastAndroid.SHORT);
+                  ToastAndroid.show('click ok',ToastAndroid.SHORT);
                 }else if(button === 'negative'){
-                  ToastAndroid.show('点击取消',ToastAndroid.SHORT);
+                  ToastAndroid.show('click cancel',ToastAndroid.SHORT);
                 }
             }
           }
@@ -90,9 +90,9 @@ class PopupWindow extends Component {
           }else{
             if(action === 'buttonClicked'){
                 if(button === 'positive'){
-                  ToastAndroid.show('点击确定',ToastAndroid.SHORT);
+                  ToastAndroid.show('click ok',ToastAndroid.SHORT);
                 }else if(button === 'negative'){
-                  ToastAndroid.show('点击取消',ToastAndroid.SHORT);
+                  ToastAndroid.show('click cancel',ToastAndroid.SHORT);
                 }
             }
           }
@@ -102,10 +102,10 @@ class PopupWindow extends Component {
     return (
         <View style={styles.container}>
           <Text style={styles.welcome} onPress={this.center}>
-              中间显示
+              show in center
            </Text>
           <Text style={styles.welcome} onPress={this.bottom}>
-              底部显示
+              show in bottom
           </Text>
         </View>
     );
